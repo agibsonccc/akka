@@ -131,6 +131,7 @@ sealed trait ActorPath extends Comparable[ActorPath] with Serializable {
 
   /**
    * INTERNAL API
+   * Creates a new ActorPath with same elements but with the specified `uid`.
    */
   private[akka] def withUid(uid: Int): ActorPath
 
@@ -233,7 +234,7 @@ final class ChildActorPath private[akka] (val parent: ActorPath, val name: Strin
 
   private val toStringOffset: Int = parent match {
     case r: RootActorPath  ⇒ r.address.toString.length + r.name.length
-    case c: ChildActorPath ⇒ c.toStringOffset + c.name.length + 1
+    case c: ChildActorPath ⇒ c.toStringLength + 1
   }
 
   private def buildToString(sb: JStringBuilder): JStringBuilder = {
